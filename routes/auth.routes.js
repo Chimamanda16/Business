@@ -15,4 +15,17 @@ authrouter.get("/login", (req, res) =>{
 authrouter.get("/auth/google", passport.authenticate("google", {scope: ["email", "profile"]})
 );
 
+authrouter.get("/google/callback", passport.authenticate("google", {failureRedirect: "/reject"}), (req, res) =>{
+    res.redirect("/dashboard");
+});
+
+authrouter.get("/reject", (req, res) =>{
+    res.sendFile(path.join(__dirname, "../public/newUser.html"));
+});
+
+authrouter.post("/newUser", (req, res) =>{
+    const busId = req.body.busName;
+    res.send("Saved");
+});
+
 module.exports = authrouter;
